@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from aiogram import F, Router
 from aiogram.types import CallbackQuery, Message
@@ -13,13 +14,14 @@ from states.admin_states import AdminStates
 from db.sessions.session_admin import add_groups
 
 admin_callback_router = Router()
+config_INFO = json.load(open("bot_config.json", "r"))
 
-@admin_callback_router.callback_query(F.data == "add_group_kb")
+@admin_callback_router.callback_query(F.data == "add_group_kb", F.from_user.id.in_({config_INFO["admin_id"]}))
 async def add_group(clbck: CallbackQuery, state: FSMContext):
     await state.set_state(AdminStates.add_group_state)
     await clbck.message.edit_text(text=add_new_group_text)
 
-@admin_callback_router.message(AdminStates.add_group_state)
+@admin_callback_router.message(AdminStates.add_group_state, F.from_user.id.in_({config_INFO["admin_id"]}))
 async def input_add_group(message: Message, state: FSMContext):
     add_groups(group_name=message.text)
     mess = await message.answer(text=input_add_new_group_text.format(message.text, 1))
@@ -33,5 +35,7 @@ async def input_add_group(message: Message, state: FSMContext):
     await mess.edit_text(text=start_text.format(message.from_user.id, message.from_user.username, "БОСО-01-23",
                                                 "labuchov.r.f@edu.mirea.ru"),
                          reply_markup=start_kb)
+
+    await state.clear()
 
 

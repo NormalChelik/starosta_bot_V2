@@ -10,7 +10,7 @@ def create_groups_buttons():
     groups_bts = ReplyKeyboardBuilder()
 
     for group in groups:
-        groups_bts.add(KeyboardButton(text=group))
+        groups_bts.add(KeyboardButton(text=group[0]))
     groups_bts.adjust(3)
 
     return groups_bts

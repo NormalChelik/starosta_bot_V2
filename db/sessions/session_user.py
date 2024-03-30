@@ -7,8 +7,7 @@ from db.models.users import (Groups,
 session = create_session()
 
 def check_groups():
-    groups = session.query(Groups).all
-    print(groups)
+    groups = session.query(Groups.group_name).all()
     return groups
 
 def add_group_for_user(group_name: str, user_id: int):
