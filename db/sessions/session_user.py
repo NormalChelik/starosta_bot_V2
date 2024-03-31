@@ -10,12 +10,13 @@ def check_groups():
     groups = session.query(Groups.group_name).all()
     return groups
 
-def add_group_for_user(group_name: str, user_id: int):
+def add_user(user_id: int, group_name: str, full_name: str):
     session.add(Users(
-        id=user_id,
-        group_name=group_name
-    ))
-def add_users(user_id: int, full_name: str):
-    stmt = update(Users).where(Users.c.id == user_id).values(full_name=full_name)
-    session.execute(stmt)
+            id=user_id,
+            group=group_name,
+            full_name=full_name
+        ))
     session.commit()
+
+def check_user(user_id: int):
+    return session.query(Users.id, Users.full_name, Users.group).filter(Users.id == user_id).all()[0]

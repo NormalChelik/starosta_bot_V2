@@ -26,14 +26,13 @@ async def input_add_group(message: Message, state: FSMContext):
     add_groups(group_name=message.text)
     mess = await message.answer(text=input_add_new_group_text.format(message.text, 1))
 
+    await state.update_data(add_new_group_text=message.text)
+
     for i in range(2, 6):
         await asyncio.sleep(1)
         await mess.edit_text(text=input_add_new_group_text.format(message.text, i))
 
-    await state.update_data(add_new_group_text=message.text)
-
-    await mess.edit_text(text=start_text.format(message.from_user.id, message.from_user.username, "БОСО-01-23",
-                                                "labuchov.r.f@edu.mirea.ru"),
+    await mess.edit_text(text=start_text.format(message.from_user.id, message.from_user.username, "БОСО-01-23", "labuchov.r.f@edu.mirea.ru"),
                          reply_markup=start_kb)
 
     await state.clear()
