@@ -3,6 +3,7 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 from db.sessions.session_user import check_groups
 
+
 def create_groups_buttons():
     check_groups()
     groups = check_groups()

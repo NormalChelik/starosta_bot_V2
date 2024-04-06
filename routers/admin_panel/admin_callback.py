@@ -11,7 +11,7 @@ from texts.texts_admin import (start_text,
 from keyboards.admin_kb.admin_commands_kb import start_kb
 from states.admin_states import AdminStates
 
-from db.sessions.session_admin import add_groups
+from db.sessions.session_admin import add_group
 
 admin_callback_router = Router()
 config_INFO = json.load(open("bot_config.json", "r"))
@@ -23,7 +23,7 @@ async def add_group(clbck: CallbackQuery, state: FSMContext):
 
 @admin_callback_router.message(AdminStates.add_group_state, F.from_user.id.in_({config_INFO["admin_id"]}))
 async def input_add_group(message: Message, state: FSMContext):
-    add_groups(group_name=message.text)
+    add_group(group_name=message.text)
     mess = await message.answer(text=input_add_new_group_text.format(message.text, 1))
 
     await state.update_data(add_new_group_text=message.text)

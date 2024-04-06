@@ -13,7 +13,9 @@ from db.create_db import create_tables
 
 config_INFO = json.load(open("bot_config.json", "r"))
 
-#Главная функция, запускает бота
+
+# Главная функция, запускает бота
+# Ахуеть комментарий
 async def main() -> None:
     bot = Bot(token=config_INFO["token"], parse_mode="Markdown")
 
